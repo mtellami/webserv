@@ -29,6 +29,7 @@ class servers {
   public:
     std::vector<locations> loc;
     std::string address;
+    std::string port;
     std::string host;
     std::string server_name;
     // int client_max_body_size;

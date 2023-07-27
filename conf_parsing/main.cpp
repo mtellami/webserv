@@ -16,6 +16,20 @@ bool is_num(std::string str)
   return true;
 }
 
+bool is_valid_address(std::string address)
+{
+  int octets;
+  int range;
+
+  for (size_t i = 0; i < address.length(); i++)
+  {
+    if (address[i] == '.' && )
+      octets++;
+    else if (address[i] == ':' && octets != 4)
+      return false;
+    else if (!isdigit(ddress[i])) 
+  }
+}
 
 bool directive(std::string buff, std::vector<std::string> serv_dirs,
     servers &srv, bool inLoc, int ii) {
@@ -39,7 +53,16 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs,
       if (!words[0].compare("server_name"))
         srv.server_name = words[1];
       else if (!words[0].compare("listen"))
-        srv.address = words[1];
+      {
+        if (!is_valid_address(words[1]))
+          ft_perr("Error: Invalid address!");
+
+        size_t k = 0; 
+        while (k < words[1].length() && words[1][k] != ':')
+              srv.address += words[1][k++];
+        while (k < words[1].length())
+          srv.port += words[1][k];
+      }
       else if (!words[0].compare("client_max_body_size"))
         srv.client_max_body_size = words[1];
       else if (!words[0].compare("error_page"))
@@ -191,7 +214,7 @@ int main(int ac, char **av) {
 
   // std::cout << "The length of serv: " << servs.size() << std::endl;
   // std::cout << "The length of locs: " << servs[0].loc.size() << std::endl;
-  // std::cout << "we have stored in serv " << servs[0].address << "." <<
-  // std::endl; std::cout << "we have stored in serv " << servs[0].server_name
+   std::cout << "we have stored in serv " << servs[0].address << "." << std::endl; 
+   //std::cout << "we have stored in serv " << servs[0].server_name
   // <<"." << std::endl;
 }
