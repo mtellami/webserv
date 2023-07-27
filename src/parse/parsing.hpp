@@ -24,7 +24,8 @@ class locations {
     ~locations();
 };
 
-class servers {
+// Change it from 'servers' to 'Config'
+class Config {
   private:
   public:
     std::vector<locations> loc;
@@ -36,8 +37,8 @@ class servers {
     std::map<int, std::string> error_pages;
 
     // error pages are missing here;
-    servers();
-    ~servers();
+    Config();
+    ~Config();
 };
 //should be done:
 //    store err pages 

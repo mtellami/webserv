@@ -18,7 +18,7 @@ bool is_num(std::string str)
 
 
 bool directive(std::string buff, std::vector<std::string> serv_dirs,
-    servers &srv, bool inLoc, int ii) {
+    Config &srv, bool inLoc, int ii) {
   if (!buff.compare("{"))
     return true;
   int j = 0;
@@ -109,7 +109,7 @@ void dirs(std::vector<std::string> &serv_dirs) {
   serv_dirs.push_back("cgi");
 }
 
-void contexts_count(std::vector<servers> &srvs, std::string path) {
+void contexts_count(std::vector<Config> &srvs, std::string path) {
   std::string buff;
   std::ifstream file(path);
   std::string word;
@@ -137,7 +137,7 @@ void contexts_count(std::vector<servers> &srvs, std::string path) {
         ft_perr("Error: bad syntax!");
 
       if (!buff.compare("server") && !inSer) {
-        srvs.push_back(servers());
+        srvs.push_back(Config());
         getline(file, buff);
         buff.erase(std::remove_if(buff.begin(), buff.end(), isspace),
             buff.end());
@@ -176,22 +176,22 @@ void contexts_count(std::vector<servers> &srvs, std::string path) {
     ft_perr("Error: missing Bracket!");
 }
 
-int main(int ac, char **av) {
-  std::string path;
+// int main(int ac, char **av) {
+//   std::string path;
 
-  if (ac >= 3)
-    ft_perr("Error!\nusage: ./webserv [configuration file]\n");
-  else if (ac == 1)
-    path = "default.conf";
-  else if (ac == 2)
-    path = av[1];
+//   if (ac >= 3)
+//     ft_perr("Error!\nusage: ./webserv [configuration file]\n");
+//   else if (ac == 1)
+//     path = "default.conf";
+//   else if (ac == 2)
+//     path = av[1];
 
-  std::vector<servers> servs;
-  contexts_count(servs, path);
+//   std::vector<servers> servs;
+//   contexts_count(servs, path);
 
   // std::cout << "The length of serv: " << servs.size() << std::endl;
   // std::cout << "The length of locs: " << servs[0].loc.size() << std::endl;
   // std::cout << "we have stored in serv " << servs[0].address << "." <<
   // std::endl; std::cout << "we have stored in serv " << servs[0].server_name
   // <<"." << std::endl;
-}
+// }

@@ -1,10 +1,10 @@
 #include "parsing.hpp"
 
-servers::servers()
+Config::Config()
 {
 }
 
-servers::~servers()
+Config::~Config()
 {
 }
 
