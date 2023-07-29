@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:22:44 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 10:04:40 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/29 08:09:14 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class Client {
         void    recieve(void);
         void    sending(void);
         bool    done_send(void);
-        void    parse_header(std::string buffer);
+        void    parse_header(void);
         void    recv_body(void);
 };
 

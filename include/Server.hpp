@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:19:04 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 15:55:40 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/28 09:29:48 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ class Server {
         void    drop_client(Client *client);
         void    handle_requests(void);
         void    responsing(void);
-        void    stop(void);
+        void    clear(void);
 };
 
-void contexts_count(std::vector<Config> &srvs, std::string path); // config file paring function
+void    contexts_count(std::vector<Config> &srvs, std::string path);
+void    clear(int sig);
 
 #endif

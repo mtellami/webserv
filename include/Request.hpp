@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 10:39:33 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/29 11:22:51 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Request {
         char              _buffer[SIZE];
         int               _i;
         bool              _recv_header;
+        bool              _downloading;
         int               _body_size;
 };
 

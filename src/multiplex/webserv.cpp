@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:24:24 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 13:35:08 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:51:05 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
             std::cerr << "Usage: ./webserv [configuration file]" << std::endl;
             return EXIT_FAILURE;
         }
-        // signal(SIGINT, clear);
+        // signal(SIGINT, stop);
         http.init(argv[1]);
         http.run();
     } catch (std::exception &e) {

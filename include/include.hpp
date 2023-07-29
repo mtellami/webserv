@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:25:47 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 13:44:29 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/29 11:36:43 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <sstream>
 
 // Macros
 #define FAIL -1

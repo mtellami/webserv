@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 15:54:37 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/29 13:49:16 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Client::Client(Cluster *cluster) : _cluster(cluster) {
     _req = new Request;
     _req->_fd = -1;
     _req->_recv_header = false;
+    _req->_downloading = false;
     _req->_body_size = 0;
     _res = new Response; 
 }
@@ -33,15 +34,43 @@ SOCK_FD Client::get_connect_fd() {
     return _socket;
 }
 
-void    Client::parse_header(std::string buffer) {
-    // Start parsing the request ..............
-    (void)buffer;
-    _req->_header["Content-Length"] = "123";
-    _req->_method = "GET";
+void    Client::parse_header() {
+    size_t      trim = _recv_buffer.find("\r\n\r\n");
+    std::string header(_recv_buffer.substr(0, trim));
+
+    _recv_buffer = _recv_buffer.substr(trim + 4);
+    // handle POST request
+    std::istringstream iss(header);
+    std::string line;
+
+    iss >> line;
+    _req->_method = line;
+    iss >> line;
+    _req->_path = line;
+    std::getline(iss, line);
+    while (1) {
+        if (!std::getline(iss, line))
+            break;
+        _req->_header.insert(_req->_header.end(), std::make_pair(line.substr(0, line.find(":")), line.substr(line.find(" "))));
+    }
+    std::cout << "Request header recieved ........" << std::endl;
+    if (_req->_method == "GET")
+        _done_recv = true;
 }
 
 void    Client::recv_body(void) {
-    // in POST request recv the posted file by chunks ...
+    if (!_req->_downloading) {
+        _req->_downloading = true;
+        _req->_fd = open("upload.png", O_CREAT | O_TRUNC);
+    }
+    if (_req->_method != "GET") {
+        if (stoi(_req->_header.find("Content-Length")->second) >= _req->_i) {
+            write(_req->_fd, _recv_buffer.c_str(), strlen(_recv_buffer.c_str()));
+            close(_req->_fd);
+        }
+    }
+    _done_recv = true;
+    std::cout << "Still reading ......" << std::endl;
 }
 
 // call this function when the client is readyToWrite in 
@@ -49,24 +78,19 @@ void    Client::recieve(void) {
     _req->_i = recv(_socket, _req->_buffer, SIZE, 0);
     if (_req->_i == -1)
         throw System();
-    if (!_req->_i) {
+    if (!_req->_i || _done_recv) {
         _done_recv = true;
         return;
     }
     _recv_buffer += std::string(_req->_buffer, _req->_i);
-    if (_recv_buffer.find("\r\n\r\n") != std::string::npos) {
-        if (!_req->_recv_header) {
+    if (!_req->_recv_header) { // still not recieve the header
+        if (_recv_buffer.find("\r\n\r\n") != std::string::npos) {
             _req->_recv_header = true;
-            parse_header(_recv_buffer.substr(0, _recv_buffer.find("\r\n\r\n")));
-            if (_req->_method == "GET")
-                _done_recv = true;
-            std::cout << "Request header recieved ........" << std::endl;
-        } else {
-            // if (_req->_header.find("Content-Length") == _req->_header.end())
-            // to be continued ......
-            recv_body();
-            std::cout << "Still reading ......" << std::endl;
+            _req->_i = _recv_buffer.substr(_recv_buffer.find("\r\n\r\n")).length();
+            parse_header();
         }
+    } else { // recieve the body in POST request)
+        recv_body();
     }
 }
 

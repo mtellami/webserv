@@ -6,11 +6,14 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 14:40:23 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/29 13:05:06 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+// Global
+bool _ = true;
 
 // <================================ THIS IS WEBSERV ================================>
 
@@ -123,7 +126,7 @@ void    Server::responsing(void) {
 void Server::run(void) {
     std::cout << "Server listning on port 8080" << std::endl;
 
-    while (true) {
+    while (_) {
         // multiplexing
         set_fds();
         if (select(_nfds + 1, &_copy_readfds, &_copy_writefds, NULL, 0) == FAIL)
@@ -134,14 +137,20 @@ void Server::run(void) {
         // response
         responsing();
     }
+    clear();
 }
 
-// void    Server::stop(void) {
-//     std::vector<Cluster*>::iterator it;
-//     std::list<Client*>::iterator    _it;
+void    stop(int sig) {
+    (void)sig;
+    _ = false;
+}
 
-//     for (it = _clusters.begin(); it != _clusters.end(); it++)
-//         close((*it)->get_listen_fd());
-//     for (_it = _clients.begin(); _it != _clients.end(); _it++)
-//         close((*_it)->get_connect_fd());
-// }
+void    Server::clear(void) {
+    std::vector<Cluster*>::iterator it;
+    std::list<Client*>::iterator    _it;
+
+    for (it = _clusters.begin(); it != _clusters.end(); it++)
+        close((*it)->get_listen_fd());
+    for (_it = _clients.begin(); _it != _clients.end(); _it++)
+        close((*_it)->get_connect_fd());
+}
