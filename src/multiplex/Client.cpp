@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/30 07:01:48 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/30 08:53:18 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void    Client::parse_header() {
 void    Client::recv_body(void) {
     if (_done_recv)
         return;
-    std::ofstream out("upload.jpg");
+    std::string suffix(_req->_header.find("Content-Type")->second.substr(_req->_header.find("Content-Type")->second.find("/") + 1));
+    std::ofstream out("file." + suffix);
     out << _recv_buffer;
     out.close();
     _done_recv = true;
@@ -83,7 +84,7 @@ void    Client::recieve(void) {
         _req->_recv_header = true;
     }else {
         int i = 0;
-        while (_req->_body_size < _buffer_size && i < SIZE) {
+        while (_req->_body_size < (int)_buffer_size && i < SIZE) {
             _req->_i = recv(_socket, _req->_buffer, 1, 0);
             if (_req->_i == FAIL)
                 throw System();
@@ -95,7 +96,7 @@ void    Client::recieve(void) {
             i++;
             _req->_body_size++;
         }
-        if (_req->_body_size == _buffer_size)
+        if (_req->_body_size == (int)_buffer_size)
             recv_body();
     }
 }
