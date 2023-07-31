@@ -11,6 +11,7 @@ SRC = src/multiplex/webserv.cpp\
 	src/multiplex/Server.cpp\
 	src/multiplex/Cluster.cpp\
 	src/multiplex/Client.cpp\
+	src/multiplex/Request.cpp\
 	src/parse/main.cpp src/parse/parsing.cpp
 
 OBJ = $(SRC:.cpp=.o)
@@ -21,18 +22,19 @@ all: $(NAME)
 	@echo $(GRAY) "Making .. $< " $(NONE)
 	@c++ $(CPPFLAGS) -c $< -o $@
 
-$(OBJDIR):
-	@mkdir $(OBJDIR)
-
 $(NAME): $(OBJ)
 	@c++ $(CPPFLAGS) $^ -o $(NAME)
+	@mkdir -p upload
 	@echo $(GREEN) "Compiled ..." $(NONE)
 
 clean:
 	@rm -rf $(OBJ)
+	@echo $(GREEN) "Objects removed ..." $(NONE)
 
 fclean: clean
 	@rm -rf $(NAME)
+	@rm -fr upload
+	@echo $(GREEN) "Cleaned ..." $(NONE)
 
 re: fclean all
 

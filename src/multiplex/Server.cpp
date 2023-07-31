@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/29 13:05:06 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:36:21 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void Server::set_fds() {
     }
 }
 
-// Accept new client connection by Checking the ReadyToReadFrom (_readfds) list setted by select function
+// Accept new client connection by Checking the ReadyToReadFrom (_readfds) list setted by 'select' system call
 void Server::accept_connection() {
     std::vector<Cluster*>::iterator it;
     for (it = _clusters.begin(); it != _clusters.end(); it++) {

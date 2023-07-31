@@ -6,10 +6,17 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/27 13:27:01 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:31:40 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Request.hpp"
 
-// request parsing and more ...........
+Request::Request() {
+    _i = 0;
+    _recv_header = false;
+    _body_size = 0;
+}
+
+Request::~Request() {
+}

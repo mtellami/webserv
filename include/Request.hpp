@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/30 06:54:03 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:30:24 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ class Request {
         int               _i;
         bool              _recv_header;
         int               _body_size;
+
+        Request();
+        ~Request();
 };
 
 #endif

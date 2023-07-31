@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/30 08:53:18 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:15:47 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ Client::Client(Cluster *cluster) : _cluster(cluster) {
     _done_send = false;
     _socket = accept(_cluster->get_listen_fd(), (struct sockaddr *)_cluster->get_address(), (socklen_t*)_cluster->get_addrlen());
     _req = new Request;
-    _req->_i = 0;
-    _req->_recv_header = false;
-    _req->_body_size = 0;
     _res = new Response; 
 }
 
@@ -48,21 +45,23 @@ void    Client::parse_header() {
             break;
         _req->_header.insert(_req->_header.end(), std::make_pair(line.substr(0, line.find(":")), line.substr(line.find(" "))));
     }
-    _buffer_size = stoi(_req->_header.find("Content-Length")->second);
     _recv_buffer = "";
-    if (_req->_method == "GET")
+    if (_req->_method != "POST") {
         _done_recv = true;
+        return ;
+    }
+    _buffer_size = 0;
+    _req->_body_size = stoi(_req->_header.find("Content-Length")->second);
 }
 
 void    Client::recv_body(void) {
     if (_done_recv)
         return;
     std::string suffix(_req->_header.find("Content-Type")->second.substr(_req->_header.find("Content-Type")->second.find("/") + 1));
-    std::ofstream out("file." + suffix);
+    std::ofstream out("upload/upload." + suffix);
     out << _recv_buffer;
     out.close();
     _done_recv = true;
-    _req->_body_size = 0;
 }
 
 // call this function when the client is readyToWrite in 
@@ -84,7 +83,7 @@ void    Client::recieve(void) {
         _req->_recv_header = true;
     }else {
         int i = 0;
-        while (_req->_body_size < (int)_buffer_size && i < SIZE) {
+        while (_buffer_size < (size_t)_req->_body_size && i < SIZE) {
             _req->_i = recv(_socket, _req->_buffer, 1, 0);
             if (_req->_i == FAIL)
                 throw System();
@@ -94,9 +93,9 @@ void    Client::recieve(void) {
             }
             _recv_buffer += std::string(_req->_buffer, _req->_i);
             i++;
-            _req->_body_size++;
+            _buffer_size++;
         }
-        if (_req->_body_size == (int)_buffer_size)
+        if (_buffer_size == (size_t)_req->_body_size)
             recv_body();
     }
 }
@@ -106,20 +105,19 @@ void    Client::sending(void) {
     std::string res("HTTP/1.1 200 OK\n\
     Content-Type: text/html\n\
     Content-Length: 20\n\n\
-    <h1>Webserv: Server is Running ...</h1>");
+    <h1>" + _req->_method +" request Accepted and served</h1>");
 
     if (!_done_recv)
         return;
     send(_socket, res.c_str(), strlen(res.c_str()), 0);
     _done_send = true;
-    std::cout << "Done sending ......." << std::endl;
 }
 
 bool    Client::done_send(void) {
     return _done_send;
 }
 
-// <========= REQUEST EXAMPLE ===========>
+// <========= REQUEST HEADER EXAMPLE ===========>
 
 // POST / HTTP/1.1
 // User-Agent: PostmanRuntime/7.32.3
