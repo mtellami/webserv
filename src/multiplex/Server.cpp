@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/31 13:36:21 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:33:26 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void Server::init(char *filename) {
 
     if (filename)
         path = std::string(filename);
-    contexts_count(configs, path);
+    Serv_block_init(configs, path);
     for (it = configs.begin(); it != configs.end(); it++) {
         _clusters.push_back(new Cluster(*it));
     }

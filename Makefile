@@ -12,7 +12,7 @@ SRC = src/multiplex/webserv.cpp\
 	src/multiplex/Cluster.cpp\
 	src/multiplex/Client.cpp\
 	src/multiplex/Request.cpp\
-	src/parse/main.cpp src/parse/parsing.cpp
+	src/parse/parsing.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

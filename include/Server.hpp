@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:19:04 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/28 09:29:48 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:34:56 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ class Server {
         void    clear(void);
 };
 
-void    contexts_count(std::vector<Config> &srvs, std::string path);
+void    Serv_block_init(std::vector<Config> &srvs, std::string path);
 void    clear(int sig);
 
 #endif
