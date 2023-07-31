@@ -8,4 +8,9 @@
     + 'Request' => contain request information of a client
     + 'Response' => same as request, contain response info
 
-- 
+## TODO
+
+- [x] Server creation
+- [x] Request parsing
+- [ ] POST request uploading
+- [ ] Response
