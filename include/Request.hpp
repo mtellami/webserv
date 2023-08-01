@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/30 10:30:24 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/01 11:09:41 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ class Request {
         std::string       _version;
         char              _buffer[SIZE];
         int               _i;
+        bool              _bad_request;
         bool              _recv_header;
         int               _body_size;
+        std::string       _filename;
 
         Request();
         ~Request();

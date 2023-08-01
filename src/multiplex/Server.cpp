@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/31 18:33:26 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:15:54 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void Server::set_fds() {
     }
 }
 
-// Accept new client connection by Checking the ReadyToReadFrom (_readfds) list setted by 'select' system call
+// Accept new client connection 
 void Server::accept_connection() {
     std::vector<Cluster*>::iterator it;
     for (it = _clusters.begin(); it != _clusters.end(); it++) {
@@ -124,8 +124,6 @@ void    Server::responsing(void) {
 
 // Run the Webserv
 void Server::run(void) {
-    std::cout << "Server listning on port 8080" << std::endl;
-
     while (_) {
         // multiplexing
         set_fds();

@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:25:47 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/29 11:36:43 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:09:56 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef int SOCK_FD; // socket file descriptor
 class System : public std::exception {
     public:
         virtual const char* what() const throw() {
-            return "System call function failed";
+            return std::string("System call function failed: " + std::string(strerror(errno))).c_str();
         }
 };
 
