@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:25:47 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/01 15:02:59 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:53:37 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 // Macros
 #define FAIL -1
-#define SIZE 2048
+#define SIZE 3072
 
 // Typedefs
 typedef int SOCK_FD; // socket file descriptor

@@ -13,4 +13,5 @@
 - [x] Server creation
 - [x] Request parsing
 - [x] POST request uploading
+- [ ] Transfer-Encoding
 - [ ] Response
