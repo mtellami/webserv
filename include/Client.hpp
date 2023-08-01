@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:22:44 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/31 20:22:50 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:18:01 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class Client {
         bool        _done_recv;
         bool        _done_send;
         std::string _recv_buffer;
-        size_t      _buffer_size;
         std::string _send_buffer;
 
     public:

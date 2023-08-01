@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:25:47 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/31 19:09:56 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:02:59 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,19 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <signal.h>
+
+#include <fstream>
 #include <iostream>
+#include <sstream>
+
 #include <string>
 #include <list>
 #include <vector>
 #include <map>
-#include <sstream>
 
 // Macros
 #define FAIL -1
-#define SIZE 1024
+#define SIZE 2048
 
 // Typedefs
 typedef int SOCK_FD; // socket file descriptor

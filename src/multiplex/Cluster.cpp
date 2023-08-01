@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:42:14 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/01 06:46:40 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:57:15 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,3 @@ struct sockaddr_in  *Cluster::get_address(void) {
 socklen_t *Cluster::get_addrlen(void) {
     return &_addrlen;
 }
-
-
-// <========= REQUEST HEADER EXAMPLE ===========>
-
-// POST / HTTP/1.1
-// User-Agent: PostmanRuntime/7.32.3
-// Accept: */*
-// Postman-Token: 9d62d6b6-0004-4bcf-b00d-dd4f835a6697
-// Host: localhost:8080
-// Accept-Encoding: gzip, deflate, br
-// Connection: keep-alive
-// Content-Length: 41
-// Content-Type: application/octet-stream
