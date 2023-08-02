@@ -5,7 +5,7 @@ NONE = '\033[0m'
 GREEN = '\033[0;32m'
 GRAY = '\033[2;37m'
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 $(INC)
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 $(INC) -fsanitize=address -g3
 
 SRC = src/multiplex/webserv.cpp\
 	src/multiplex/Server.cpp\

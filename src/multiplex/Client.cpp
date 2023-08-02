@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/01 15:07:25 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:19:35 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ void    Client::recieve(void) {
 
 // Response to the ready client
 void    Client::sending(void) {
+
     std::string res("HTTP/1.1 200 OK\n\
     Content-Type: text/html\n\
     Content-Length: 20\n\n\
-    <h1 style=\"font-size:5rem\">" + _req->get_method() + " request Accepted and served</h1>");
+    <h1 style=\"font-size:5rem\"> request Accepted and served</h1>");
 
     if (!_done_recv)
         return;
     send(_socket, res.c_str(), strlen(res.c_str()), 0);
     _done_send = true;
 }
+
+// TODO:  parse the path in the request 

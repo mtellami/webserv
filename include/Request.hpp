@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/01 14:56:13 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:05:16 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
 
 class Request {
     private:
+        std::map<std::string, std::string>  _req_header;
+        std::vector<std::string>            _start_line;
         std::string       _recv_buffer;
         size_t            _buffer_size;
-        std::map<std::string, std::string>  _header;
-        std::string       _method;
-        std::string       _path;
-        std::string       _version;
         char              _buffer[SIZE];
         int               _i;
         bool              _bad_request;
@@ -42,6 +40,8 @@ class Request {
 
         std::string get_method(void);
         bool        recieve_header(void);
+
+        void print(void);
 };
 
 #endif

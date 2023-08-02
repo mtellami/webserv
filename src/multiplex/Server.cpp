@@ -6,14 +6,11 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/31 19:15:54 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:08:16 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-
-// Global
-bool _ = true;
 
 // <================================ THIS IS WEBSERV ================================>
 
@@ -89,14 +86,12 @@ void    Server::drop_client(Client *client) {
     close(client->get_connect_fd());
     FD_CLR(client->get_connect_fd(), &_readfds);
     FD_CLR(client->get_connect_fd(),  &_writefds);
-    delete(client);
     for (it = _clients.begin(); it != _clients.end(); it++) {
-        if ((*it)->get_connect_fd() == client->get_connect_fd())
-            break;
+        if ((*it)->get_connect_fd() == client->get_connect_fd()) {
+            delete(client);
+            return ; 
+        }
     }
-    if (it != _clients.end())
-        _clients.erase(it);
-    std::cout << "Client droped" << std::endl;
 }
 
 // Request
@@ -113,18 +108,23 @@ void    Server::handle_requests(void) {
 void    Server::responsing(void) {
     std::list<Client*>::iterator it;
 
-    for (it = _clients.begin(); it != _clients.end(); it++) {
+    it = _clients.begin();
+    while (it != _clients.end()) {
         if (FD_ISSET((*it)->get_connect_fd(), &_copy_writefds)) {
             (*it)->sending();
-            if ((*it)->done_send())
+            if ((*it)->done_send()) {
                 drop_client(*it);
+                it = _clients.erase(it);
+                continue;
+            }
         }
+        it++;
     }
 }
 
 // Run the Webserv
 void Server::run(void) {
-    while (_) {
+    while (true) {
         // multiplexing
         set_fds();
         if (select(_nfds + 1, &_copy_readfds, &_copy_writefds, NULL, 0) == FAIL)
@@ -135,20 +135,4 @@ void Server::run(void) {
         // response
         responsing();
     }
-    clear();
-}
-
-void    stop(int sig) {
-    (void)sig;
-    _ = false;
-}
-
-void    Server::clear(void) {
-    std::vector<Cluster*>::iterator it;
-    std::list<Client*>::iterator    _it;
-
-    for (it = _clusters.begin(); it != _clusters.end(); it++)
-        close((*it)->get_listen_fd());
-    for (_it = _clients.begin(); _it != _clients.end(); _it++)
-        close((*_it)->get_connect_fd());
 }
