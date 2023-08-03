@@ -2,6 +2,7 @@
 #include "../../include/Request.hpp"
 #include "../parse/parsing.hpp"
 
+/*
 void cgi_exec(std::string path, locations loc, Request req, char **env)
 {
   (void)req;
@@ -29,16 +30,24 @@ void cgi_exec(std::string path, locations loc, Request req, char **env)
   }
   
 }
+*/
 
  void cgi_exec(std::string file, std::map<std::string, std::string> cgi, Request req)
 {
     
   size_t pos = file.find_last_of('.');
-  if (pos == std::string::npos)
-  {
+  if (pos == std::string::npos) {
     std::cerr << "Error: file extension invalid!" << std::endl;
-    exit(1);
+    exit(EXIT_FAILURE);
+  }
+  std::string key(file, pos+1, file.length() - pos);
+  if (!cgi[key].compare("")){
+    std::cerr << "Error: unsupported program!" << std::endl;
+  }
+  else {
+   // 
   }
 
-  int pid = fork();
+
+//  int pid = fork();
 }
