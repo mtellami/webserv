@@ -8,6 +8,12 @@
     + 'Request' => contain request information of a client
     + 'Response' => same as request, contain response info
 
+## HTTP REQUEST:
+- Start line: Method, URI, HTTP-version (GET / HTTP/1.1)
+- Header request entity (User-agent, host, Content-length ...)
+- Empty line indicate the header end ("\r\n\r\n")
+- body (optional)
+
 ## TODO
 
 - [x] Server creation

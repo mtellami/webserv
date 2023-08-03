@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 16:08:50 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:45:23 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,8 @@ void    Request::parse_request_header(bool & _done_recv) {
 
     while (_ss >> buff)
         _start_line.push_back(std::string(buff));
-    // print here ......
-    while (1) {
-        if (!std::getline(iss, line))
-            break;
+    while (std::getline(iss, line)) 
         _req_header.insert(_req_header.end(), std::make_pair(line.substr(0, line.find(":")), line.substr(line.find(" "))));
-    }
     _recv_buffer = "";
     if (_start_line[0] != "POST") {
         _done_recv = true;
@@ -121,16 +117,6 @@ void Request::get_request_body(SOCK_FD & _socket, bool & _done_recv) {
     write_body_chunk(_done_recv);
     if (_buffer_size == (size_t)_body_size)
         _done_recv = true;
-}
-
-void Request::print(void) {
-    std::cout << _start_line[0] <<std::endl;
-    std::cout << _start_line[1] <<std::endl;
-    std::cout << _start_line[2] <<std::endl;
-    std::map<std::string, std::string>::iterator it;
-    for (it = _req_header.begin(); it != _req_header.end(); it++) {
-        std::cout << it->first << " " << it->second << std::endl;
-    }
 }
 
 // ----------- REQUEST HEADER EXAMPLE -------------------

@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 21:19:35 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:44:20 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void    Client::recieve(void) {
 
 // Response to the ready client
 void    Client::sending(void) {
+    if (!_done_recv)
+        return;
 
     std::string res("HTTP/1.1 200 OK\n\
     Content-Type: text/html\n\
     Content-Length: 20\n\n\
     <h1 style=\"font-size:5rem\"> request Accepted and served</h1>");
 
-    if (!_done_recv)
-        return;
     send(_socket, res.c_str(), strlen(res.c_str()), 0);
     _done_send = true;
 }

@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 15:05:16 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:44:07 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ class Request {
         std::string get_method(void);
         bool        recieve_header(void);
 
-        void print(void);
 };
 
 #endif
