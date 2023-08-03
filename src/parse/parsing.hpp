@@ -15,14 +15,11 @@ class locations {
   private:
   public:
     std::string pattern;
-    //if a method is not allowed a 405 err page
     std::vector<std::string> methods;
     std::string redir_path;
     std::string root;
     bool autoindex;
     std::vector<std::string> def_files;
-    //Change from vec of pairs into map for easier handling + bonus
-//    std::vector<std::pair<std::string, std::string> > cgi;
     std::map<std::string, std::string> cgi;
     locations();
     ~locations();
@@ -33,9 +30,7 @@ class Config {
   private:
   public:
     std::vector<locations> loc;
-    // address is set to "" in case not found in conf file
     std::string address;
-    //if the port isn't determined in the config file, port will take the value -1
     int         port;
     std::string server_name;
     int client_max_body_size;

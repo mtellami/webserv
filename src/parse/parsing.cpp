@@ -2,19 +2,38 @@
 
 Config::Config()
 {
+  server_name = "Webserv";
+  client_max_body_size = 10;
+  error_pages[200] = "200.html";
+  error_pages[201] = "201.html";
+  error_pages[204] = "204.html";
+  error_pages[400] = "400.html";
+  error_pages[401] = "401.html";
+  error_pages[403] = "403.html";
+  error_pages[404] = "404.html";
+  error_pages[405] = "405.html";
+  error_pages[413] = "413.html";
+  error_pages[414] = "414.html";
+  error_pages[501] = "501.html";
 }
 
 Config::~Config()
 {
 }
 
-locations::locations() {}
+locations::locations() {
+  pattern = "";
+  autoindex = false;
+  root = "root/path/need/change!";
+  cgi["py"] = "def_files/cgi_bins/python";
+  cgi["php"] = "def_files/cgi_bins/php";
+}
 
 locations::~locations() {}
 
 void ft_perr(std::string msg) {
   std::cerr << msg << std::endl;
-  exit(1);
+  exit(EXIT_FAILURE);
 }
 
 bool is_num(std::string str)
@@ -28,7 +47,6 @@ bool is_num(std::string str)
 }
 bool is_valid_address(std::string address)
 {
-  //122.231.312.21:2000
   int octets = 0;
   std::string octet;
   int range;
@@ -93,28 +111,19 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
       {
         if (words.size() != 2)
           ft_perr("Error: bad address format!");
-        //case 0f port only:
-        if (words[1].length() && words[1].length() <= 5 && is_num(words[1]))
-        {
-          srv.address = "";
-          srv.port = stoi(words[1]);
-        }
-        else
-        {
-          if (!is_valid_address(words[1]))
-            ft_perr("Error: Invalid address!");
+        if (!is_valid_address(words[1]))
+          ft_perr("Error: Invalid address!");
 
-          size_t k = 0;
-          while (k < words[1].length() && words[1][k] != ':')
-            srv.address += words[1][k++];
-          k++;
-          while (k < words[1].length())
-            port += words[1][k++];
-          if (port.length())
-            srv.port = stoi(port);
-          else
-            srv.port = -1;
-        }
+        size_t k = 0;
+        while (k < words[1].length() && words[1][k] != ':')
+          srv.address += words[1][k++];
+        k++;
+        while (k < words[1].length())
+          port += words[1][k++];
+        if (port.length())
+          srv.port = stoi(port);
+        else
+          ft_perr("Error: port is required in listen directive.");
       }
       else if (!words[0].compare("client_max_body_size"))
       {
@@ -178,16 +187,13 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
           ft_perr("Error: cgi bad format!");
 
         std::string key;
-        //skippin the '.' in the begining of an extention.
         for (size_t x = 1; x < words[1].length(); x++)
           key += words[1][x];
         srv.loc[ii].cgi[key] = words[2];
-        //srv.loc[ii].cgi.push_back(make_pair(words[1], words[2]));
       }
       return true;
     }
   }
-  std::cout << buff << std::endl;
   return false;
 }
 
@@ -208,6 +214,24 @@ void dirs(std::vector<std::string> &serv_dirs) {
   serv_dirs.push_back("index");
   serv_dirs.push_back("cgi");
 }
+
+void check_Configs(std::vector<Config> &srvs)
+{
+  for (size_t i = 0; i < srvs.size(); i++)
+  {
+    if (!srvs[i].loc.size())
+      ft_perr("Error: missing location context in server context!");
+    for (size_t j = 0; j < srvs[i].loc.size(); j++)
+    {
+      if (!srvs[i].loc[j].pattern.compare(""))
+        ft_perr("Error: pattern in location is required!");
+      if (!srvs[i].loc[j].def_files.size())
+        srvs[i].loc[j].def_files.push_back("index.html");
+    }
+  }
+
+}
+
 
 void Serv_block_init(std::vector<Config> &srvs, std::string path) {
   std::string buff;
@@ -238,6 +262,7 @@ void Serv_block_init(std::vector<Config> &srvs, std::string path) {
 
       if (!buff.compare("server") && !inSer) {
         srvs.push_back(Config());
+
         getline(file, buff);
         buff.erase(std::remove_if(buff.begin(), buff.end(), isspace),
             buff.end());
@@ -274,4 +299,7 @@ void Serv_block_init(std::vector<Config> &srvs, std::string path) {
   }
   if (inSer || inLoc)
     ft_perr("Error: missing Bracket!");
+  //  check_for_valid_server
+  check_Configs(srvs);
+
 }
