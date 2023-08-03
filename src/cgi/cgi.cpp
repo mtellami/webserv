@@ -20,10 +20,25 @@ void cgi_exec(std::string path, locations loc, Request req, char **env)
   if (pid == 0)
   {
     execve(binary, arg ,env);
+    std::cerr << "Error: execve failed!" << std::endl;
+    exit (EXIT_FAILURE);
   }
   else {
 
     //wait for child
   }
   
+}
+
+ void cgi_exec(std::string file, std::map<std::string, std::string> cgi, Request req)
+{
+    
+  size_t pos = file.find_last_of('.');
+  if (pos == std::string::npos)
+  {
+    std::cerr << "Error: file extension invalid!" << std::endl;
+    exit(1);
+  }
+
+  int pid = fork();
 }
