@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/04 06:34:37 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:31:38 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void    Request::get_request_header(SOCK_FD & _socket, bool & _done_recv) {
     }
     parse_request_header(_done_recv);
     _recv_header = true;
-    std::cout << "===============> " << _start_line[1] << std::endl;
 }
 
 // Generate random file name
