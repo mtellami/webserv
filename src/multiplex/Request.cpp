@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/03 11:45:23 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/04 06:34:37 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Request::Request() {
     _recv_header = false;
     _body_size = 0;
     _filename = "";
+    _query = "";
     _bad_request = true;
 }
 
@@ -46,6 +47,8 @@ void    Request::parse_request_header(bool & _done_recv) {
 
     while (_ss >> buff)
         _start_line.push_back(std::string(buff));
+    if (_start_line[1].find("?") != std::string::npos)
+        _query = _start_line[1].substr(_start_line[1].find("?") + 1);
     while (std::getline(iss, line)) 
         _req_header.insert(_req_header.end(), std::make_pair(line.substr(0, line.find(":")), line.substr(line.find(" "))));
     _recv_buffer = "";
@@ -71,6 +74,7 @@ void    Request::get_request_header(SOCK_FD & _socket, bool & _done_recv) {
     }
     parse_request_header(_done_recv);
     _recv_header = true;
+    std::cout << "===============> " << _start_line[1] << std::endl;
 }
 
 // Generate random file name
@@ -98,6 +102,8 @@ void Request::write_body_chunk(bool & _done_recv) {
 
 // get the client request body by chunks
 void Request::get_request_body(SOCK_FD & _socket, bool & _done_recv) {
+    if (_done_recv)
+        return ;
     if (_filename == "")
         _filename = rand_name();
 
@@ -108,7 +114,7 @@ void Request::get_request_body(SOCK_FD & _socket, bool & _done_recv) {
             throw System();
         if (!_i) {
             _done_recv = true;
-            return;
+            return ;
         }
         _recv_buffer += std::string(_buffer, _i);
         i++;

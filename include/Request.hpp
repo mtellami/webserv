@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:54 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/03 11:44:07 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:02:23 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class Request {
     private:
         std::map<std::string, std::string>  _req_header;
         std::vector<std::string>            _start_line;
+        std::string       _query;
         std::string       _recv_buffer;
         size_t            _buffer_size;
         char              _buffer[SIZE];
