@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:00 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 10:51:02 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/05 11:16:22 by maamer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "include.hpp"
 #include "Cluster.hpp"
-
+#include "Request.hpp"
 class Response {
     public:
         Cluster *_cluster;
@@ -23,8 +23,15 @@ class Response {
         int                 _status_code;
         std::string         _http_version;
         std::string         _status_message;
-        std::map<std::string, std::string>  _res_header
-        ;
+        std::map<std::string, std::string>  _res_header;
+      
+        std::string _content_type;
+        std::string _content_len;
+        //Response(Cluster *cluster);
+        void response_pages(Config &config_file);
+        // int get_methode(Config &config_file);
+       
+        
 
         Response(Cluster *cluster);
         ~Response(void);

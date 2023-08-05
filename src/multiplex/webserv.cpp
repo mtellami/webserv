@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   webserv.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:24:24 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 21:06:57 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:29:27 by maamer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int argc, char **argv)
 {
     Server http;
-
+    Request request;
     try {
         if (argc > 2) {
             std::cerr << "Usage: ./webserv [configuration file]" << std::endl;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Response.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:15:03 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 09:53:40 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:29:15 by maamer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,41 @@ Response::Response(Cluster *cluster) : _cluster(cluster) {
 
 Response::~Response() {
 }
+
+
+//The purpose of this function is to determine the appropriate Content-Type 
+//The code extracts the file extension from the _path variable of the Request class
+std::string Request::getContentType()
+{
+    std::map<std::string, std::string> content;
+    content["txt"] = "text/plain";
+    content["html"] = "text/html";
+    content["css"] = "text/css";
+    content["js"] = "text/javascript";
+    content["json"] ="application/json";
+    content["xml"] = "application/xml";
+    content["pdf"] = "application/pdf";
+    content["zip"] = "application/zip";
+    content["jpeg"] = "image/jpeg";
+    content["png"] = "image/png";
+    content["gif"] = "image/gif";
+    content["ogg"] = "audio/ogg";
+    content["wav"] = "audio/wav";
+    content["mp3"] = "audio/mp3";
+    content["webm"] = "video/webm";
+	content["mp4"] = "video/mp4";
+    content[""] = "application/octet-stream";
+    if (content.find(_start_line[1].substr(_start_line[1].find_last_of(".") + 1)) != content.end())
+		return content[_start_line[1].substr(_start_line[1].find_last_of(".") + 1)];
+	else
+		return content[""];
+
+}
+
+// int Response:: get_methode(Config &config_file)
+// {
+
+// }
 
 // ----- RESPONSE EXAMPL -----
 
