@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 09:25:47 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 20:56:14 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/05 13:34:56 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include <fstream>
 #include <iostream>

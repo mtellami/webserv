@@ -6,7 +6,11 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/05 11:37:25 by maamer           ###   ########.fr       */
+=======
+/*   Updated: 2023/08/05 13:48:15 by mtellami         ###   ########.fr       */
+>>>>>>> 5748a1e4cc2ebe0926bebdf1de7a9189a933d47e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +39,14 @@ bool Request::recieve_header(void) {
     return _recv_header;
 }
 
+// _stoi
+static int _stoi(std::string str) {
+	std::istringstream iss(str);
+	int nbr;
+	iss >> nbr;
+	return nbr;
+}
+
 // parse the client request header
 void    Request::parse_request_header(bool & _done_recv) {
     _recv_buffer = _recv_buffer.substr(0, _recv_buffer.find("\r\n\r\n"));
@@ -57,7 +69,7 @@ void    Request::parse_request_header(bool & _done_recv) {
         return ;
     }
     _buffer_size = 0;
-    _body_size = stoi(_req_header.find("Content-Length")->second);
+    _body_size = _stoi(_req_header.find("Content-Length")->second);
 }
 
 // get the client request header
@@ -93,7 +105,10 @@ void Request::write_body_chunk(bool & _done_recv) {
     if (_done_recv)
         return;
     std::string suffix(_req_header.find("Content-Type")->second.substr(_req_header.find("Content-Type")->second.find("/") + 1));
-    std::ofstream out("upload/" + _filename + "." + suffix, std::ios::binary | std::ios::app);
+    std::ofstream out;
+	
+
+		out.open(std::string("upload/" + _filename + "." + suffix).c_str(), std::ios::binary | std::ios::app);
     out << _recv_buffer;
     out.close();
     _recv_buffer = "";
