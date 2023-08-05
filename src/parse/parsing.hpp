@@ -11,6 +11,8 @@
 #include <map>
 #include <iostream>
 
+#include "include.hpp"
+
 class locations {
   private:
   public:
@@ -38,6 +40,5 @@ class Config {
     Config();
     ~Config();
 };
-
 
 #endif
