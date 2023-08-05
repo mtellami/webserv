@@ -26,6 +26,15 @@ bool is_num(std::string str)
   }
   return true;
 }
+
+// added by moad
+static int _stoi(std::string str) {
+	std::istringstream iss(str);
+	int nbr;
+	iss >> nbr;
+	return nbr;
+}
+
 bool is_valid_address(std::string address)
 {
   //122.231.312.21:2000
@@ -41,7 +50,7 @@ bool is_valid_address(std::string address)
     {
       if (!is_num(octet))
         return false;
-      range = stoi(octet);
+      range = _stoi(octet);
       if (range > 255)
         return false;
       octet.clear();
@@ -51,7 +60,7 @@ bool is_valid_address(std::string address)
     {
       if (octets != 3 || !is_num(octet) || i == address.length() - 1)
         return false;
-      range = stoi(octet);
+      range = _stoi(octet);
       if (range > 255)
         return false;
       octet.clear();
@@ -97,7 +106,7 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
         if (words[1].length() && words[1].length() <= 5 && is_num(words[1]))
         {
           srv.address = "";
-          srv.port = stoi(words[1]);
+          srv.port = _stoi(words[1]);
         }
         else
         {
@@ -111,7 +120,7 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
           while (k < words[1].length())
             port += words[1][k++];
           if (port.length())
-            srv.port = stoi(port);
+            srv.port = _stoi(port);
           else
             srv.port = -1;
         }
@@ -122,7 +131,7 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
           ft_perr("Error: bad client_max_body_size format!");
         if (!is_num(words[1]))
           ft_perr("Error: client_max_body_size should be a number!");
-        srv.client_max_body_size = stoi(words[1]);
+        srv.client_max_body_size = _stoi(words[1]);
       }
       else if (!words[0].compare("error_page"))
       {
@@ -133,7 +142,7 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
           if (x == words.size() - 1 && (is_num(words[x]) || words[x].compare(words[x].length() - 5, 5, ".html")))
             ft_perr("Error: error_page file is invalid!");
           if (is_num(words[x]))
-            srv.error_pages[stoi(words[x])] = words[words.size()-1];
+            srv.error_pages[_stoi(words[x])] = words[words.size()-1];
         }
       }
       return true;
@@ -211,7 +220,9 @@ void dirs(std::vector<std::string> &serv_dirs) {
 
 void Serv_block_init(std::vector<Config> &srvs, std::string path) {
   std::string buff;
-  std::ifstream file(path);
+  std::ifstream file;
+
+	file.open(path.c_str());
   std::string word;
   std::vector<std::string> serv_dirs;
   int i = 0;
