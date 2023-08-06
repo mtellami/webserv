@@ -54,6 +54,7 @@ void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request 
       std::cerr << "fork() failed!" << std::endl;
     else if (!pid)
     {
+      //duping the stdin is needed in order to pass stdin params to script, body is needed first.
       execve(args[0], args, env);
       std::cerr << "execve failed!" << std::endl;
     }
