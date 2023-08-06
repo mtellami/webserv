@@ -4,7 +4,20 @@
 
 void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request req)
 {
-  char *env[] = {NULL};
+  std::vector<std::string> env_vars;
+  env_vars.push_back("CONTENT_LENGTH = " + req._req_header.find("Content-Length")->second);
+  env_vars.push_back("REQUEST_METHOD = " + req.get_method());
+  env_vars.push_back("CONTENT_TYPE = " + req.getContentType());
+  env_vars.push_back("QUERY_STRING = " + req.get_query());
+  env_vars.push_back("SERVER_PROTOCOL = " + req.get_protocol());
+  //allocate extra space for var that should be added later and set them to null;
+  char **env = new char* [env_vars.size() + 1];
+  env[env_vars.size()] = NULL;
+  for (size_t i = 0; i < env_vars.size(); i++)
+  {
+    env[i] = new char[env_vars[i].length()+1];
+    std::strcpy(env[i], env_vars[i].c_str());
+  }
   //get method and parse path
   if (!req.get_method().compare("POST")) {
     //url exp of post meth: https://exple.com/cgi-bins/exp.py
@@ -53,3 +66,4 @@ void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request 
 
   }
 }
+

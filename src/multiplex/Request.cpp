@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/05 17:42:10 by lchokri          ###   ########.fr       */
+/*   Updated: 2023/08/06 10:58:44 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ std::string Request::get_method(void) {
     return _start_line[0];
 }
 
+std::string Request::get_protocol(void) {
+    return _start_line[2];
+}
 bool Request::recieve_header(void) {
     return _recv_header;
 }
