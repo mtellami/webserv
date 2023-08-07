@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "../../include/Request.hpp"
+#include "../../include/Client.hpp"
 #include "../parse/parsing.hpp"
 
 char **env(Request req, std::string path)
@@ -28,7 +29,7 @@ char **env(Request req, std::string path)
 //    http://example.com/cgi-bin/printenv.php/with/additional/path?and=a&query=string
 //    http://example.com/cgi-bin/printenv.py
 
-void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request req)
+void cgi_exec(std::string path, Client client, Request req, int loc)
 {
   size_t pos = path.find_last_of(".");
   while (pos < path.length() && path[pos] != '/')
@@ -40,7 +41,8 @@ void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request 
   pos = full_path.find_last_of(".");
   std::string key(full_path, pos+1, full_path.length() - pos);
 
-  if (cgi[key].length())
+//  if (client.get_cluster().get_conf().location[loc].cgi[key].length())
+  if (cgi[key])
   {
     char **args = new char*[3];
     args[0] = new char[cgi[key].length() + 1];
@@ -60,9 +62,15 @@ void cgi_exec(std::string path, std::map<std::string, std::string> cgi, Request 
     }
     else if (pid > 0) {
       //checks on timeouts should be added!!
-      waitpid(pid, NULL, 0);
+      waitpid(pid, NULL, WNOHANG);
     }
   }
 }
 //else   -->  that means no bin is available to run the script;
 }
+
+//NEED TO ADD:
+//  [ ]  getters in Client class
+//  [ ]  a var to check weither the script is running
+//  [ ]  fun to keep on track the timeout 
+//  [ ]  
