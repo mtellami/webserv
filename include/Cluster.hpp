@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:18:06 by mtellami          #+#    #+#             */
-/*   Updated: 2023/07/28 09:41:35 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:31:39 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class Cluster {
         Cluster(Config _conf);
         ~Cluster(void);
 
+        Config              get_conf();
         SOCK_FD             get_listen_fd(void);
         struct sockaddr_in  *get_address(void);
         socklen_t           *get_addrlen(void);

@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:42:14 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/01 14:57:15 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:34:08 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ Cluster::~Cluster(void) {
 }
 
 //Getters
+
+Config Cluster::get_conf() {
+  return _config;
+}
+
 SOCK_FD Cluster::get_listen_fd() {
     return _socket_fd;
 }

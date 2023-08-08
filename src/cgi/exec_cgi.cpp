@@ -1,7 +1,7 @@
 #include <unistd.h>
-#include "../../include/Request.hpp"
-#include "../../include/Client.hpp"
-#include "../parse/parsing.hpp"
+#include "Request.hpp"
+#include "Client.hpp"
+#include "Server.hpp"
 
 char **env(Request req, std::string path)
 {
@@ -29,8 +29,9 @@ char **env(Request req, std::string path)
 //    http://example.com/cgi-bin/printenv.php/with/additional/path?and=a&query=string
 //    http://example.com/cgi-bin/printenv.py
 
-void cgi_exec(std::string path, Client client, Request req, int loc)
+void cgi_exec(std::string path, Client client, int loc)
 {
+  std::map<std::string, std::string> cgi (client.get_cluster().get_conf().loc[loc].cgi);
   size_t pos = path.find_last_of(".");
   while (pos < path.length() && path[pos] != '/')
     pos++;
@@ -70,7 +71,7 @@ void cgi_exec(std::string path, Client client, Request req, int loc)
 }
 
 //NEED TO ADD:
-//  [ ]  getters in Client class
-//  [ ]  a var to check weither the script is running
+//  [x]  getters in Client class
+//  [x]  a var to check weither the script is running
 //  [ ]  fun to keep on track the timeout 
 //  [ ]  

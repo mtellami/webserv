@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/03 11:44:20 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:43:17 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 Client::Client(Cluster *cluster) : _cluster(cluster) {
     _done_recv = false;
     _done_send = false;
+    _done_cgi = false;
     _socket = accept(_cluster->get_listen_fd(), (struct sockaddr *)_cluster->get_address(), (socklen_t*)_cluster->get_addrlen());
     _req = new Request;
     _res = new Response(cluster); 
@@ -58,6 +59,22 @@ void    Client::sending(void) {
 
     send(_socket, res.c_str(), strlen(res.c_str()), 0);
     _done_send = true;
+}
+
+bool    Client::done_cgi(void){
+  return  _done_cgi;
+}
+
+void Client::set_done_cgi(bool state) {
+  _done_cgi = state ;
+}
+
+Cluster Client::get_cluster() {
+  return *_cluster;
+}
+
+Request Client::get_req() {
+  return *_req;
 }
 
 // TODO:  parse the path in the request 
