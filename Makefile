@@ -6,7 +6,7 @@ NONE = '\033[0m'
 GREEN = '\033[0;32m'
 GRAY = '\033[2;37m'
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 $(INC)
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 $(INC) $(SANITIZE)
 
 SRC = src/multiplex/webserv.cpp\
 	src/multiplex/Server.cpp\
@@ -14,7 +14,8 @@ SRC = src/multiplex/webserv.cpp\
 	src/multiplex/Client.cpp\
 	src/multiplex/Request.cpp\
 	src/multiplex/Response.cpp\
-	src/parse/parsing.cpp
+	src/parse/parsing.cpp\
+	src/cgi/exec_cgi.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

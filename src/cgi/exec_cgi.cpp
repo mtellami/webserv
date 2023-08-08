@@ -3,14 +3,14 @@
 #include "Client.hpp"
 #include "Server.hpp"
 
-char **env(Request req, std::string path)
+char **init_env(Request req, std::string path)
 {
   std::vector<std::string> env_vars;
-  env_vars.push_back("CONTENT_LENGTH = " + req._req_header.find("Content-Length")->second);
-  env_vars.push_back("CONTENT_TYPE = " + req.getContentType());
+  env_vars.push_back("CONTENT_LENGTH = " + req.getContentLength());
+  //env_vars.push_back("CONTENT_TYPE = " + req.getContentType());
   env_vars.push_back("QUERY_STRING = " + req.get_query());
-  env_vars.push_back("REQUEST_METHOD = " + req.get_method());
-  env_vars.push_back("SERVER_PROTOCOL = " + req.get_protocol());
+  //env_vars.push_back("REQUEST_METHOD = " + req.get_method());
+//  env_vars.push_back("SERVER_PROTOCOL = " + req.get_protocol());
   env_vars.push_back("PATH_INFO = " + path);
 
   //allocate extra space for var that should be added later and set them to null;
@@ -29,21 +29,22 @@ char **env(Request req, std::string path)
 //    http://example.com/cgi-bin/printenv.php/with/additional/path?and=a&query=string
 //    http://example.com/cgi-bin/printenv.py
 
-void cgi_exec(std::string path, Client client, int loc)
+void cgi_exec(std::string path, Client *client, int loc)
 {
-  std::map<std::string, std::string> cgi (client.get_cluster().get_conf().loc[loc].cgi);
+
+  std::map<std::string, std::string> cgi (client->get_cluster().get_conf().loc[loc].cgi);
   size_t pos = path.find_last_of(".");
   while (pos < path.length() && path[pos] != '/')
     pos++;
   std::string full_path(path, 0, pos);
-  char **env = env(req, full_path);
+  char **env = init_env(client->get_req(), full_path);
 
   //get cgi binary to run script based on script's extension
   pos = full_path.find_last_of(".");
   std::string key(full_path, pos+1, full_path.length() - pos);
 
-//  if (client.get_cluster().get_conf().location[loc].cgi[key].length())
-  if (cgi[key])
+  //  if (client.get_cluster().get_conf().location[loc].cgi[key].length())
+  if (cgi[key].length())
   {
     char **args = new char*[3];
     args[0] = new char[cgi[key].length() + 1];
@@ -66,12 +67,13 @@ void cgi_exec(std::string path, Client client, int loc)
       waitpid(pid, NULL, WNOHANG);
     }
   }
-}
-//else   -->  that means no bin is available to run the script;
+
+  //else   -->  that means no bin is available to run the script;
 }
 
 //NEED TO ADD:
 //  [x]  getters in Client class
 //  [x]  a var to check weither the script is running
 //  [ ]  fun to keep on track the timeout 
-//  [ ]  
+//  [ ]  check if we already runned the script
+//  [ ]  fix segf li commented lfo9

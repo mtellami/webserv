@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:19:04 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/02 21:07:21 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:17:34 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,12 @@ class Server {
         void    drop_client(Client *client);
         void    handle_requests(void);
         void    responsing(void);
+
+
+        std::list<Client*> get_clients();
 };
 
 void    Serv_block_init(std::vector<Config> &srvs, std::string path);
+void cgi_exec(std::string path, Client* client, int loc);
 
 #endif

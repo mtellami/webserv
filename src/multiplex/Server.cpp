@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/08 10:47:03 by lchokri          ###   ########.fr       */
+/*   Updated: 2023/08/08 18:47:31 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,9 @@ void Server::run(void) {
         handle_requests();
         // response
         responsing();
+        std::list<Client *>::iterator it = _clients.begin();
+        cgi_exec("tst.py", *it, 0);
+
+
     }
 }
