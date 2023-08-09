@@ -25,8 +25,8 @@ locations::locations() {
   pattern = "";
   autoindex = false;
   root = "root/path/need/change!";
-  cgi["py"] = "def_files/cgi_bins/python";
-  cgi["php"] = "def_files/cgi_bins/php";
+  cgi["py"] = "src/def_files/cgi_bins/python";
+  cgi["php"] = "src/def_files/cgi_bins/php";
 }
 
 locations::~locations() {}

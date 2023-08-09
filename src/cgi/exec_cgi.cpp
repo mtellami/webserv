@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdlib.h>
 #include "Request.hpp"
 #include "Client.hpp"
 #include "Server.hpp"
@@ -6,39 +7,38 @@
 char **init_env(Request req, std::string path)
 {
   std::vector<std::string> env_vars;
-  env_vars.push_back("CONTENT_LENGTH = " + req.getContentLength());
-  //env_vars.push_back("CONTENT_TYPE = " + req.getContentType());
-  env_vars.push_back("QUERY_STRING = " + req.get_query());
-  //env_vars.push_back("REQUEST_METHOD = " + req.get_method());
-//  env_vars.push_back("SERVER_PROTOCOL = " + req.get_protocol());
+  if (req.getContentLength().compare(""))
+    env_vars.push_back("CONTENT_LENGTH = " + req.getContentLength());
+//    env_vars.push_back("CONTENT_TYPE = " + req.getContentType());
+  if (req.get_query().compare(""))
+    env_vars.push_back("QUERY_STRING = " + req.get_query());
+  env_vars.push_back("REQUEST_METHOD = " + req.get_method());
+  env_vars.push_back("SERVER_PROTOCOL = " + req.get_protocol());
   env_vars.push_back("PATH_INFO = " + path);
 
   //allocate extra space for var that should be added later and set them to null;
-  char **env = new char* [11];
+  char **env = new char* [env_vars.size() + 1];
   for (size_t i = 0; i < env_vars.size(); i++)
   {
     env[i] = new char[env_vars[i].length()+1];
     std::strcpy(env[i], env_vars[i].c_str());
   }
-  for (size_t i = env_vars.size() + 1; i < 11; i++)
-    env[i] = NULL;
+    env[env_vars.size()] = NULL;
   return env;
 }
-
-//url exp:
-//    http://example.com/cgi-bin/printenv.php/with/additional/path?and=a&query=string
-//    http://example.com/cgi-bin/printenv.py
 
 void cgi_exec(std::string path, Client *client, int loc)
 {
 
+  if (client->done_cgi())
+    return ;
+  client->set_done_cgi(true);
   std::map<std::string, std::string> cgi (client->get_cluster().get_conf().loc[loc].cgi);
   size_t pos = path.find_last_of(".");
   while (pos < path.length() && path[pos] != '/')
     pos++;
   std::string full_path(path, 0, pos);
   char **env = init_env(client->get_req(), full_path);
-
   //get cgi binary to run script based on script's extension
   pos = full_path.find_last_of(".");
   std::string key(full_path, pos+1, full_path.length() - pos);
@@ -56,11 +56,10 @@ void cgi_exec(std::string path, Client *client, int loc)
     int pid = fork();
     if (pid < 0)
       std::cerr << "fork() failed!" << std::endl;
-    else if (!pid)
+    else if (pid == 0)
     {
       //duping the stdin is needed in order to pass stdin params to script, body is needed first.
       execve(args[0], args, env);
-      std::cerr << "execve failed!" << std::endl;
     }
     else if (pid > 0) {
       //checks on timeouts should be added!!
@@ -76,4 +75,6 @@ void cgi_exec(std::string path, Client *client, int loc)
 //  [x]  a var to check weither the script is running
 //  [ ]  fun to keep on track the timeout 
 //  [ ]  check if we already runned the script
-//  [ ]  fix segf li commented lfo9
+//  [ ] read more on rfc
+//  [ ] parse new header
+//  [ ] 

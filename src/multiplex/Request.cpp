@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/08 17:54:17 by lchokri          ###   ########.fr       */
+/*   Updated: 2023/08/09 16:18:03 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ std::string Request::get_protocol(void) {
 std::string Request::getContentLength() {
   return _req_header.find("Content-Length")->second;
 }
+
 bool Request::recieve_header(void) {
     return _recv_header;
 }

@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:11:22 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/08 18:47:31 by lchokri          ###   ########.fr       */
+/*   Updated: 2023/08/09 18:39:28 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,14 @@ void    Server::handle_requests(void) {
 // Response
 void    Server::responsing(void) {
     std::list<Client*>::iterator it;
-
     it = _clients.begin();
+    std::list<Client*>::iterator it2 = _clients.begin();
     while (it != _clients.end()) {
         if (FD_ISSET((*it)->get_connect_fd(), &_copy_writefds)) {
             (*it)->sending();
+
             if ((*it)->done_send()) {
+//                cgi_exec("src/multiplex/tst2.php", *it2, 0);
                 drop_client(*it);
                 it = _clients.erase(it);
                 continue;
@@ -134,9 +136,5 @@ void Server::run(void) {
         handle_requests();
         // response
         responsing();
-        std::list<Client *>::iterator it = _clients.begin();
-        cgi_exec("tst.py", *it, 0);
-
-
     }
 }
