@@ -1,7 +1,6 @@
 #include "parsing.hpp"
 
-Config::Config()
-{
+Config::Config() {
   server_name = "Webserv";
   client_max_body_size = 10;
   error_pages[200] = "200.html";
@@ -17,9 +16,7 @@ Config::Config()
   error_pages[501] = "501.html";
 }
 
-Config::~Config()
-{
-}
+Config::~Config() {}
 
 locations::locations() {
   pattern = "";
@@ -36,10 +33,8 @@ void ft_perr(std::string msg) {
   exit(EXIT_FAILURE);
 }
 
-bool is_num(std::string str)
-{
-  for (int i = 0; str[i]; i++)
-  {
+bool is_num(std::string str) {
+  for (int i = 0; str[i]; i++) {
     if (!isdigit(str[i]))
       return false;
   }
@@ -54,18 +49,15 @@ static int _stoi(std::string str) {
   return nbr;
 }
 
-bool is_valid_address(std::string address)
-{
+bool is_valid_address(std::string address) {
   int octets = 0;
   std::string octet;
   int range;
 
-  for (size_t i = 0; i < address.length(); i++)
-  {
+  for (size_t i = 0; i < address.length(); i++) {
     if (!isdigit(address[i]) && address[i] != '.' && address[i] != ':')
       return false;
-    if (address[i] == '.' && isdigit(address[i + 1]) && i != 0)
-    {
+    if (address[i] == '.' && isdigit(address[i + 1]) && i != 0) {
       if (!is_num(octet))
         return false;
       range = _stoi(octet);
@@ -74,15 +66,14 @@ bool is_valid_address(std::string address)
       octet.clear();
       octets++;
     }
-    if (address[i] == ':')
-    {
+    if (address[i] == ':') {
       if (octets != 3 || !is_num(octet) || i == address.length() - 1)
         return false;
       range = _stoi(octet);
       if (range > 255)
         return false;
       octet.clear();
-    } 
+    }
     if (isdigit(address[i]))
       octet += address[i];
   }
@@ -91,8 +82,8 @@ bool is_valid_address(std::string address)
   return true;
 }
 
-bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv, bool inLoc, int ii) 
-{
+bool directive(std::string buff, std::vector<std::string> serv_dirs,
+               Config &srv, bool inLoc, int ii) {
   if (!buff.compare("{"))
     return true;
   int j = 0;
@@ -110,14 +101,11 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
 
   for (size_t i = 0; i < serv_dirs.size(); i++) {
     if (!inLoc && !words[0].compare(serv_dirs[i])) {
-      if (!words[0].compare("server_name"))
-      {
+      if (!words[0].compare("server_name")) {
         if (words.size() != 2)
           ft_perr("Error: bad server_name format!");
         srv.server_name = words[1];
-      }
-      else if (!words[0].compare("listen"))
-      {
+      } else if (!words[0].compare("listen")) {
         if (words.size() != 2)
           ft_perr("Error: bad address format!");
         if (!is_valid_address(words[1]))
@@ -130,65 +118,54 @@ bool directive(std::string buff, std::vector<std::string> serv_dirs, Config &srv
         while (k < words[1].length())
           port += words[1][k++];
         if (port.length())
-          srv.port = stoi(port);
+          srv.port = _stoi(port);
         else
           ft_perr("Error: port is required in listen directive.");
-      }
-      else if (!words[0].compare("client_max_body_size"))
-      {
+      } else if (!words[0].compare("client_max_body_size")) {
         if (words.size() != 2)
           ft_perr("Error: bad client_max_body_size format!");
         if (!is_num(words[1]))
           ft_perr("Error: client_max_body_size should be a number!");
         srv.client_max_body_size = _stoi(words[1]);
-      }
-      else if (!words[0].compare("error_page"))
-      {
-        for (size_t x  = 1; x < words.size(); x++)
-        {
+      } else if (!words[0].compare("error_page")) {
+        for (size_t x = 1; x < words.size(); x++) {
           if (x != words.size() - 1 && !is_num(words[x]))
             ft_perr("Error: error code should be a number!");
-          if (x == words.size() - 1 && (is_num(words[x]) || words[x].compare(words[x].length() - 5, 5, ".html")))
+          if (x == words.size() - 1 &&
+              (is_num(words[x]) ||
+               words[x].compare(words[x].length() - 5, 5, ".html")))
             ft_perr("Error: error_page file is invalid!");
           if (is_num(words[x]))
-            srv.error_pages[_stoi(words[x])] = words[words.size()-1];
+            srv.error_pages[_stoi(words[x])] = words[words.size() - 1];
         }
       }
       return true;
     } else if (inLoc && !words[0].compare(serv_dirs[i])) {
-      if (!words[0].compare("pattern"))
-      {
+      if (!words[0].compare("pattern")) {
         if (words.size() != 2)
           ft_perr("Error: bad pattern format!");
         srv.loc[ii].pattern = words[1];
       }
 
-      else if (!words[0].compare("limit_except"))
-      {
+      else if (!words[0].compare("limit_except")) {
         for (size_t x = 1; x < words.size(); x++)
           srv.loc[ii].methods.push_back(words[x]);
-      }
-      else if (!words[0].compare("return"))
-      {
+      } else if (!words[0].compare("return")) {
         if (words.size() != 3 || !is_num(words[1]))
           ft_perr("Error: bad redirection!");
         srv.loc[ii].redir_path = words[2];
-      }
-      else if (!words[0].compare("root"))
-      {
+      } else if (!words[0].compare("root")) {
         if (words.size() != 2)
           ft_perr("Error! Bad root format!");
         srv.loc[ii].root = words[1];
-      }
-      else if (!words[0].compare("autoindex"))
-      {
-        if (words.size() != 2 || (words[1].compare("on") && words[1].compare("off")))
+      } else if (!words[0].compare("autoindex")) {
+        if (words.size() != 2 ||
+            (words[1].compare("on") && words[1].compare("off")))
           ft_perr("Error! bad autoindex format!");
         srv.loc[ii].autoindex = false;
         if (!words[1].compare("on"))
           srv.loc[ii].autoindex = true;
-      }
-      else if (!words[0].compare("index"))
+      } else if (!words[0].compare("index"))
         srv.loc[ii].def_files.push_back(words[1]);
 
       else if (!words[0].compare("cgi")) {
@@ -224,23 +201,18 @@ void dirs(std::vector<std::string> &serv_dirs) {
   serv_dirs.push_back("cgi");
 }
 
-void check_Configs(std::vector<Config> &srvs)
-{
-  for (size_t i = 0; i < srvs.size(); i++)
-  {
+void check_Configs(std::vector<Config> &srvs) {
+  for (size_t i = 0; i < srvs.size(); i++) {
     if (!srvs[i].loc.size())
       ft_perr("Error: missing location context in server context!");
-    for (size_t j = 0; j < srvs[i].loc.size(); j++)
-    {
+    for (size_t j = 0; j < srvs[i].loc.size(); j++) {
       if (!srvs[i].loc[j].pattern.compare(""))
         ft_perr("Error: pattern in location is required!");
       if (!srvs[i].loc[j].def_files.size())
         srvs[i].loc[j].def_files.push_back("index.html");
     }
   }
-
 }
-
 
 void Serv_block_init(std::vector<Config> &srvs, std::string path) {
   std::string buff;
@@ -276,7 +248,7 @@ void Serv_block_init(std::vector<Config> &srvs, std::string path) {
 
         getline(file, buff);
         buff.erase(std::remove_if(buff.begin(), buff.end(), isspace),
-            buff.end());
+                   buff.end());
         if (buff.compare("{") != 0)
           ft_perr("Error: Opening bracket is missing !");
         inSer = true;
@@ -291,12 +263,12 @@ void Serv_block_init(std::vector<Config> &srvs, std::string path) {
 
         getline(file, buff);
         buff.erase(std::remove_if(buff.begin(), buff.end(), isspace),
-            buff.end());
+                   buff.end());
         if (buff.compare("{") != 0)
           ft_perr("Error: Opening bracket is missing for location!");
         inLoc = true;
       } else if (inSer &&
-          (!buff.compare(0, 8, "location") && buff.length() != 8))
+                 (!buff.compare(0, 8, "location") && buff.length() != 8))
         ft_perr("Error: bad syntax!");
       if (inLoc && !buff.compare("}"))
         inLoc = false;
@@ -312,5 +284,4 @@ void Serv_block_init(std::vector<Config> &srvs, std::string path) {
     ft_perr("Error: missing Bracket!");
   //  check_for_valid_server
   check_Configs(srvs);
-
 }
