@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:22:44 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/08 18:25:57 by lchokri          ###   ########.fr       */
+/*   Updated: 2023/08/12 20:05:16 by lchokri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ class Client {
         void    set_done_cgi(bool state);
         Cluster get_cluster();
         Request get_req();
+        int     pid;
+        int     stats;
 };
 
 #endif
