@@ -114,7 +114,7 @@ void Server::responsing(void) {
       (*it)->sending();
 
       if ((*it)->done_send()) {
-//        cgi_exec("src/multiplex/form.py", *it, 0);
+        cgi_exec("src/multiplex/form.py", *it, 0);
         drop_client(*it);
         it = _clients.erase(it);
         continue;

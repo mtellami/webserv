@@ -73,8 +73,10 @@ Cluster Client::get_cluster() {
   return *_cluster;
 }
 
+/*
 Request Client::get_req() {
   return *_req;
 }
+*/
 
 // TODO:  parse the path in the request 

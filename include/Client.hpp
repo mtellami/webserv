@@ -21,8 +21,6 @@
 class Client {
     private:
         Cluster     *_cluster;
-        Request     *_req;
-        Response    *_res;
         SOCK_FD     _socket;
         bool        _done_recv;
         bool        _done_send;
@@ -43,9 +41,13 @@ class Client {
         bool    done_cgi(void);
         void    set_done_cgi(bool state);
         Cluster get_cluster();
-        Request get_req();
+//        Request get_req();
         int     pid;
         int     stats;
+
+
+        Request     *_req;
+        Response    *_res;
 };
 
 #endif

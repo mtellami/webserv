@@ -31,6 +31,7 @@ class Response {
         void response_pages(Config &config_file);
         // int get_methode(Config &config_file);
        
+        std::string body;
         
 
         Response(Cluster *cluster);
