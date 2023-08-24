@@ -21,6 +21,12 @@
 - [x] POST request uploading
 - [x] Response
 
-- [ ] Merge everything
+- [x] Merge everything
 
-- [ ] Testing & handling
+- [ ] Fix GET (binary files)
+- [ ] Cgi
+- [ ] Test parsing
+- [ ] Serve static website
+- [ ] Cases (....)
+- [ ] Correction page
+
