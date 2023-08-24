@@ -21,10 +21,18 @@
 - [x] POST request uploading
 - [x] Response
 
+<br/>
+
 - [x] Merge everything
 
-- [ ] Fix GET (binary files)
+<br/>
+
+- [x] Fix GET (binary files)
+
 - [ ] Cgi
+
+<br/>
+
 - [ ] Test parsing
 - [ ] Serve static website
 - [ ] Cases (....)
