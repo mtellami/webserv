@@ -129,11 +129,6 @@ void cgi_exec(std::string path, Client *client, int loc) {
   //assuming that the child finished successefully:
   //Parsing the header of cgi:
   parse_cgi_file(filename, client->_res);
-
-  std::cout << "This is a tst msg: " << std::endl;
-  std::cout << client->_res->_status_code << std::endl;
-  std::cout << client->_res->_content_type << std::endl;
-  std::cout << client->_res->body << std::endl;
   /*
      if (!waitpid(client->pid, &client->stats, WNOHANG))
      std::cerr << "still running" << std::endl;

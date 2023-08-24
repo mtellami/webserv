@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:15:03 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/24 15:15:20 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/24 22:15:59 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void Response::handleFileRequest(Client *cl)
 		to_string_get(cl, url);
 		get_body_content(url);
 		std::string res = _header + _body;
-		send(cl->get_connect_fd(), res.c_str(), strlen(res.c_str()), 0);
+		send(cl->get_connect_fd(), res.c_str(), res.size(), 0);
   }
 }
 
@@ -246,7 +246,7 @@ void Response::handleDirectoryRequest(Client *cl, locations *var) {
 			 	to_string_get(cl, path);	
 				get_body_content(path);
 				std::string res = _header + _body;
-				send(cl->get_connect_fd(), res.c_str(), strlen(res.c_str()), 0);
+				send(cl->get_connect_fd(), res.c_str(), res.size(), 0);
 			}
 	}	else if (var->autoindex) {
 		auto_index(cl, url);

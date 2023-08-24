@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:12:45 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/24 15:09:25 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:36:15 by mtellami         ###   ########.fr       */
 /*   Updated: 2023/08/05 13:48:15 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -156,12 +156,15 @@ std::string rand_name(void) {
 // get file extention from content type
 std::string get_extention(std::string content) {
 	std::string suffix;
-	if (content == "application/octet-stream")
-		suffix = "";
 	suffix = content.substr(content.find("/") + 1);
 	if (suffix[suffix.length() - 1] == '\r')
 		suffix = suffix.substr(0, suffix.length() -1);
-	return suffix;
+	if (content.find("application/octet-stream") != std::string::npos)
+		return "";
+	else if (content.find("text/plain") != std::string::npos)
+		suffix = "txt";
+	std::cout << content << std::endl;
+	return suffix + ".";
 }
 
 static bool is_directory(std::string path) {
@@ -185,7 +188,7 @@ void Request::write_body_chunk(bool & _done_recv, std::string path) {
       _done_recv = true;
       return ;
     }
-    path += _filename + "." + suffix;
+    path += _filename + suffix;
 
 		out.open(path.c_str(), std::ios::binary | std::ios::app);
     out << _recv_buffer;
@@ -251,10 +254,8 @@ void Request::get_request_body(SOCK_FD & _socket, bool & _done_recv, std::string
 			transfer_encoding(_socket, _done_recv, path);
 			return;
 		}
-		// TODO: multimedia Contenr-Type (boundary)
     if (_filename == "")
-			_filename = "image";
-        // _filename = rand_name();
+        _filename = rand_name();
 
     while (_buffer_size < (size_t)_body_size && i < SIZE) {
         _i = recv(_socket, _buffer, 1, 0);
