@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 08:42:38 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/24 15:08:13 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:33:43 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Client::Client(Cluster *cluster) : _cluster(cluster) {
 		_done_cgi = false;
     _socket = accept(_cluster->get_listen_fd(), (struct sockaddr *)_cluster->get_address(), (socklen_t*)_cluster->get_addrlen());
     _req = new Request;
-    _res = new Response(cluster);
+    _res = new Response(cluster, this);
     _matched = NULL;
 }
 

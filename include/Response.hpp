@@ -6,7 +6,7 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:11:00 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/24 15:01:27 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:34:37 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ enum ERRORS {
 class Response {
     public:
         Cluster     *_cluster;
+				Client			*_client;
         std::string _header;
 				std::string _body;
         int         _status_code;
@@ -53,7 +54,7 @@ class Response {
 				std::string _status_message;
 				std::string body;
 
-        Response(Cluster *cluster);
+        Response(Cluster *cluster, Client *client);
         std::string getStatusMsg(int status);
         ~Response(void);
         std::string get_error_page(std::string page, int code);

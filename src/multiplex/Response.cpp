@@ -6,13 +6,13 @@
 /*   By: maamer <maamer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:15:03 by mtellami          #+#    #+#             */
-/*   Updated: 2023/08/24 22:15:59 by mtellami         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:49:17 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Response.hpp"
 
-Response::Response(Cluster *cluster) : _cluster(cluster) {
+Response::Response(Cluster *cluster, Client *client) : _cluster(cluster), _client(client) {
 }
 
 Response::~Response(){
@@ -206,10 +206,11 @@ void Response::handleFileRequest(Client *cl)
 }
 
 void Response::get_body_content(std::string url) {
-	// check if its .py or .php file 
-	// call cgi function
-	// cgi_exec()
-	// return;
+	std::string ex = url.substr(url.find_last_of(".") + 1);
+	// if (ex == "php" || ex == "py") {
+	// 	_body = cgi_exec(url, _client, 0);
+	// 	return;
+	// }
 
 	std::ifstream iss;
 	iss.open(url.c_str(), std::ios::binary);
@@ -298,10 +299,6 @@ void Response::auto_index(Client *client, std::string uri)
 
 void Response::GET(Client *cl, locations *var)
 {
-	/////////////// TEST CGI  ////////////////
-	// cgi_exec("src/cgi/test/sum.php", cl, 0);
-	///////////////////////////////////////////
-
 	if (!var->redir_path.empty()) {
 		_status_code = 301;
 		std::string res = get_error_page("src/response_pages/301.html", 301);
