@@ -209,7 +209,7 @@ void check_Configs(std::vector<Config> &srvs) {
       if (!srvs[i].loc[j].pattern.compare(""))
         ft_perr("Error: pattern in location is required!");
       if (!srvs[i].loc[j].def_files.size())
-        srvs[i].loc[j].def_files.push_back("index.html");
+        srvs[i].loc[j].def_files.push_back("");
     }
   }
 }
