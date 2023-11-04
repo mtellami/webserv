@@ -1,6 +1,6 @@
 # <h1 align="center">🌐 ​&nbsp; WEBSERV &nbsp; 🌐​</h1>
 
-# 📍​ Introduction
+# 📌​​ Introduction
 HTTP (Hypertext Transfer Protocol) is a protocol for sending and receiving information over the internet. It is the foundation of the World Wide Web and is used by web browsers and web servers to communicate with each other.
 
 An HTTP web server is a software application that listens for and responds to HTTP requests from clients (such as web browsers). The main purpose of a web server is to host web content and make it available to users over the internet.
@@ -70,7 +70,7 @@ HTTP DELETE is stright forward. It deletes a resource specified in URI. On succe
 
 Read more about HTTP methods <a href="https://www.rfc-editor.org/rfc/rfc9110.html">RFC9110#9</a>.1
 
-# 📍​ Web Server
+# 📌​​ Web Server
 A basic HTTP web server consists of several components that work together to receive and process HTTP requests from clients and send back responses. Below are the main parts of our webserver.
 
 ### 🔶 Server Core
