@@ -1,4 +1,10 @@
+<div align="center"
+
 # <h1 align="center">🌐 ​&nbsp; WEBSERV &nbsp; 🌐​</h1>
+> This project is about writing your own HTTP server
+<hr>
+
+</div>
 
 # 📌​​ Introduction
 HTTP (Hypertext Transfer Protocol) is a protocol for sending and receiving information over the internet. It is the foundation of the World Wide Web and is used by web browsers and web servers to communicate with each other.
